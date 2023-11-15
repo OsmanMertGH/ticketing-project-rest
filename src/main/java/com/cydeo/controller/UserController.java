@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -20,6 +22,7 @@ public class UserController {
 
 
     @GetMapping
+    @RolesAllowed({"Manager","Admin"})
     public ResponseEntity<ResponseWrapper> getUsers() {
         return ResponseEntity
                 .ok(new ResponseWrapper(
@@ -29,6 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{userName}")
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> getUserByUserName(@PathVariable("userName") String userName) {
         return ResponseEntity
                 .ok(new ResponseWrapper(
@@ -39,6 +43,7 @@ public class UserController {
     }
 
     @PostMapping
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> createUsers(@RequestBody UserDTO userDTO) {
         userService.save(userDTO);
         return ResponseEntity
@@ -51,6 +56,7 @@ public class UserController {
     }
 
     @PutMapping()
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> updateUsers(@RequestBody UserDTO userDTO) {
         userService.update(userDTO);
         return ResponseEntity
@@ -61,6 +67,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userName}")
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> deleteUsers(@PathVariable("userName") String userName) {
 
         userService.delete(userName);
