@@ -47,9 +47,9 @@ public class UserServiceImpl implements UserService {
 
         user.setEnabled(true);
 
-        User obj = userMapper.convertToEntity(user);
+//        User obj = userMapper.convertToEntity(user);
 
-        userRepository.save(obj);
+        userRepository.save(userMapper.convertToEntity(user));
 
     }
 
