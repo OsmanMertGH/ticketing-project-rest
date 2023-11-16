@@ -3,6 +3,8 @@ package com.cydeo.controller;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@Tag(name="UserController",description="User API")
 public class UserController {
 
     private final UserService userService;
@@ -23,6 +26,7 @@ public class UserController {
 
     @GetMapping
     @RolesAllowed({"Manager","Admin"})
+    @Operation(summary = "Get users")
     public ResponseEntity<ResponseWrapper> getUsers() {
         return ResponseEntity
                 .ok(new ResponseWrapper(
@@ -33,6 +37,7 @@ public class UserController {
 
     @GetMapping("/{userName}")
     @RolesAllowed("Admin")
+    @Operation(summary = "Get users by username")
     public ResponseEntity<ResponseWrapper> getUserByUserName(@PathVariable("userName") String userName) {
         return ResponseEntity
                 .ok(new ResponseWrapper(
